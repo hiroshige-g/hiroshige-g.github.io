@@ -59,10 +59,7 @@ function runTest(onStart, onBackNavigated) {
 
 const originParam = new URL(location.href).searchParams.get('origin');
 
-const origin =
-  originParam === 'same-origin' ? 'http://{{host}}:{{ports[http][0]}}' :
-  originParam === 'same-site' ? 'http://{{host}}:{{ports[http][1]}}' :
-  'http://{{hosts[alt][www]}}:{{ports[http][0]}}'; // cross-site
+const origin = 'https://hiroshige-g.github.io';
 
 const backUrl =
   origin +
