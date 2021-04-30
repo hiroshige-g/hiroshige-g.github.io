@@ -1,0 +1,12 @@
+<!doctype html>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="/common/PrefixedLocalStorage.js"></script>
+<title>Events fired during BFCached back navigation (cross-site, iframe)</title>
+<iframe></iframe>
+<script>
+const prefixedLocalStorage = new PrefixedLocalStorageTest();
+fetch_tests_from_prefixed_local_storage(prefixedLocalStorage);
+document.querySelector('iframe').src =
+  prefixedLocalStorage.url('resources/events.html');
+</script>
