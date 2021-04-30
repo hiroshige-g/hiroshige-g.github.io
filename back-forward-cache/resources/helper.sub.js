@@ -63,4 +63,4 @@ const origin = 'https://hiroshige-g.github.io';
 
 const backUrl =
   origin +
-  '/html/browsers/browsing-the-web/back-forward-cache/resources/back.html';
+  '/back-forward-cache/resources/back.html';
