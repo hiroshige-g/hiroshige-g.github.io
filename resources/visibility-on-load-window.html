@@ -1,7 +1,5 @@
 <!DOCTYPE HTML>
 <script>
-const target = opener || parent;
-
 const results = [];
 
 results.push(document.visibilityState);
@@ -12,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', () => {
   results.push(document.visibilityState);
-  target.postMessage(results, '*');
+  localStorage.setItem('visibilityResult', JSON.stringify(results));
   window.close();
 });
 </script>

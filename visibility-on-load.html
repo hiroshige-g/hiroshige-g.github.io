@@ -3,18 +3,6 @@
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
 <script>
-for (let i = 0; i < 5; ++i) {
-promise_test(t => {
-  return new Promise(resolve => {
-      window.onmessage = event => resolve(event.data);
-      window.open('resources/visibility-on-load-window.html');
-    })
-    .then(data => {
-      assert_array_equals(data, ['visible', 'visible', 'visible']);
-    });
-  }, 'document.visibilityState in new Window ' + i);
-}
-
 test(() => {
   assert_equals(document.visibilityState, 'visible');
 }, 'document.visibilityState during parsing');
@@ -30,4 +18,41 @@ async_test(t => {
     assert_equals(document.visibilityState, 'visible');
   }));
 }, 'document.visibilityState at load event');
+
+for (let i = 0; i < 5; ++i) {
+promise_test(t => {
+  return new Promise(resolve => {
+      localStorage.removeItem('visibilityResult');
+      window.addEventListener('storage', e => {
+        console.error(e);
+        if (e.key === 'visibilityResult') {
+          resolve(JSON.parse(e.newValue));
+        }
+      });
+      window.open('resources/visibility-on-load-window.html', '_blank');
+    })
+    .then(data => {
+      assert_array_equals(data, ['visible', 'visible', 'visible']);
+    });
+  }, 'document.visibilityState in new Window ' + i);
+}
+
+for (let i = 0; i < 5; ++i) {
+promise_test(t => {
+  return new Promise(resolve => {
+      localStorage.removeItem('visibilityResult');
+      window.addEventListener('storage', e => {
+        console.error(e);
+        if (e.key === 'visibilityResult') {
+          resolve(JSON.parse(e.newValue));
+        }
+      });
+      window.open('resources/visibility-on-load-window.html', '_blank', 'noopener');
+    })
+    .then(data => {
+      assert_array_equals(data, ['visible', 'visible', 'visible']);
+    });
+  }, 'document.visibilityState in new Window (noopener) ' + i);
+}
+
 </script>
