@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<script>
+const target = opener || parent;
+
+const results = [];
+
+results.push(document.visibilityState);
+
+document.addEventListener('DOMContentLoaded', () => {
+  results.push(document.visibilityState);
+});
+
+window.addEventListener('load', () => {
+  results.push(document.visibilityState);
+  target.postMessage(results, '*');
+  window.close();
+});
+</script>
