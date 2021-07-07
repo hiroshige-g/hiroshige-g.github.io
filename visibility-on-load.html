@@ -3,6 +3,18 @@
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
 <script>
+for (let i = 0; i < 5; ++i) {
+promise_test(t => {
+  return new Promise(resolve => {
+      window.onmessage = event => resolve(event.data);
+      window.open('resources/visibility-on-load-window.html');
+    })
+    .then(data => {
+      assert_array_equals(data, ['visible', 'visible', 'visible']);
+    });
+  }, 'document.visibilityState in new Window ' + i);
+}
+
 test(() => {
   assert_equals(document.visibilityState, 'visible');
 }, 'document.visibilityState during parsing');
