@@ -7,6 +7,7 @@
 </pre>
 <script>
 function log(div, text) {
+  console.log(text);
   div.appendChild(document.createTextNode(text + '\n'));
   div.appendChild(document.createElement('br'));
 }
@@ -87,6 +88,7 @@ document.addEventListener(
     });
 */
 
+/*
 document.addEventListener(
     'visibilitychange',
     (event) => {
@@ -94,6 +96,6 @@ document.addEventListener(
         runTest('visibilitychange' + document.visibilityState);
       }
     });
-
+*/
 
 </script>
