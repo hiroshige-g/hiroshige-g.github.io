@@ -69,33 +69,31 @@ window.addEventListener(
     });
 window.addEventListener(
     'pagehide',
-    () => { log("============ pagehide ===================="); }
+    () => {
+      runTest('pagehide');
+      log(div0, "============ pagehide ====================");
+    }
 );
 
-/*
 document.addEventListener(
     'freeze',
     (event) => {
         runTest('freeze');
     });
-*/
 
-/*
 document.addEventListener(
     'resume',
     (event) => {
         runTest('resume');
     });
-*/
 
-/*
 document.addEventListener(
     'visibilitychange',
     (event) => {
-      if (document.visibilityState === 'visible') {
-        runTest('visibilitychange' + document.visibilityState);
+      // if (document.visibilityState === 'visible')
+      {
+        runTest('visibilitychange.' + document.visibilityState);
       }
     });
-*/
 
 </script>
