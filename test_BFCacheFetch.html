@@ -71,4 +71,23 @@ window.addEventListener(
     () => { log("============ pagehide ===================="); }
 );
 
+document.addEventListener(
+    'freeze',
+    (event) => {
+        runTest('freeze');
+    });
+
+document.addEventListener(
+    'resume',
+    (event) => {
+        runTest('resume');
+    });
+
+document.addEventListener(
+    'visibilitychange',
+    (event) => {
+        runTest('visibilitychange' + document.visibilityState);
+    });
+
+
 </script>
