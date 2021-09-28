@@ -3,11 +3,31 @@
 <a href="https://www.google.com" target="_top">Navigate to Google</a>
 <pre id="pre">
 </pre>
+<pre id="div0">
+</pre>
 <script>
 function log(div, text) {
   div.appendChild(document.createTextNode(text + '\n'));
   div.appendChild(document.createElement('br'));
 }
+
+document.addEventListener('visibilitychange', () => {
+  log(div0, 'visibility: ' + document.visibilityState);
+  if (document.visibilityState === 'visible') {
+    try {
+      const socket = new WebSocket("wss://demo.piesocket.com/v3/channel_1?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKxVEjQU6IdCjwm&notify_self");
+      socket.onmessage = e => log(div0, 'Receive: ' + e.data);
+      socket.onerror = e => log(div0, 'Onerror: ' + e.message);
+      socket.onopen = e => {
+        log(div0, 'Socket open');
+        socket.send('a');
+        log(div0, 'Socket sent');
+      };
+    } catch(e) {
+      log(div0, 'Socket error: ' + e.message);
+    }
+  }
+});
 
 function runTest(description) {
   const div = document.createElement('div');
