@@ -11,11 +11,10 @@ function log(div, text) {
   div.appendChild(document.createElement('br'));
 }
 
-document.addEventListener('visibilitychange', () => {
-  log(div0, 'visibility: ' + document.visibilityState);
+function hoge() {
   if (document.visibilityState === 'visible') {
     try {
-      const socket = new WebSocket("wss://demo.piesocket.com/v3/channel_1?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKxVEjQU6IdCjwm&notify_self");
+      window.socket = new WebSocket("wss://demo.piesocket.com/v3/channel_1?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKxVEjQU6IdCjwm&notify_self");
       socket.onmessage = e => log(div0, 'Receive: ' + e.data);
       socket.onerror = e => log(div0, 'Onerror: ' + e.message);
       socket.onopen = e => {
@@ -26,7 +25,18 @@ document.addEventListener('visibilitychange', () => {
     } catch(e) {
       log(div0, 'Socket error: ' + e.message);
     }
+  } else {
+    window.socket.close();
   }
+}
+
+document.addEventListener('visibilitychange', () => {
+  log(div0, 'visibility: ' + document.visibilityState);
+  hoge();
+});
+
+document.addEventListener('load', () => {
+  hoge();
 });
 
 function runTest(description) {
