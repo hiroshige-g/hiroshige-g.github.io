@@ -1,24 +1,22 @@
-<!doctype html>
-<meta name="timeout" content="long">
+<!DOCTYPE HTML>
 <script src="/resources/testharness.js"></script>
 <script src="/resources/testharnessreport.js"></script>
-<script src="/common/PrefixedLocalStorage.js"></script>
+<script src="/common/utils.js"></script>
+<script src="/common/dispatcher/dispatcher.js"></script>
+<script src="../resources/helper.sub.js"></script>
 <script>
-var prefixedLocalStorage;
-setup(() => prefixedLocalStorage = new PrefixedLocalStorageTest());
+// Check whether the page is BFCached when there are open BroadcastChannels.
+runEventTest(
+  {funcBeforeNavigation: () => {
+      window.bc = new BroadcastChannel('foo');
+  }},
+  'Eligibility (BroadcastChannel)');
 
-async_test(t => {
-  t.add_cleanup(() => prefixedLocalStorage.cleanup());
-  prefixedLocalStorage.onSet('result', t.step_func_done(e => {
-      const result = JSON.parse(e.newValue);
-      assert_false(result.isBFCached, 'Should be BFCached');
-  }));
-  // {BackForwardCacheMetrics::NotRestoredReason::kBlocklistedFeatures},
-  // {blink::scheduler::WebSchedulerTrackedFeature::kBroadcastChannel}
-  const url = new URL('../resources/simple.py', location.href);
-  url.searchParams.set('script', `window.bc = new BroadcastChannel('foo');`);
-  window.open(prefixedLocalStorage.url(url.href),
-    '_blank',
-    'noopener');
-}, 'BroadcastChannel is open');
+// Same as above, but the BroadcastChannels are closed in the pagehide event.
+runEventTest(
+  {funcBeforeNavigation: () => {
+      window.bc = new BroadcastChannel('foo');
+      window.addEventListener('pagehide', () => window.bc.close());
+  }},
+  'Eligibility (BroadcastChannel closed in the pagehide event)');
 </script>
